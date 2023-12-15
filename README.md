@@ -5,7 +5,8 @@ This repository contains an analysis to understand the amount of suitable aquacu
 ### Data
 The data was too large to push to this repository, so download the data [here](https://drive.google.com/file/d/1u-iwnPDbe6ZK7wSFVMI-PpCKaRQ3RVmg/view?usp=sharing) and save it locally. 
 
-> The structure of the repo is:
+### Structure 
+The structure of the repo is as follows:
 > ```
 > west-coast-eez
 > │   README.md
@@ -15,4 +16,4 @@ The data was too large to push to this repository, so download the data [here](h
 >    │   west-coast-eez.html
 >    │   west-coast-eez.Rmd
 > ```
->The full analysis is contained in the documents folder in the .Rmd file.
+The full analysis is contained in the documents folder in the .Rmd file.
