@@ -17,6 +17,8 @@ getwd()
 
 ## Overview
 
+------------------------------------------------------------------------
+
 ### *Background*
 
 Marine aquaculture has the potential to play an important role in the global food supply as a more sustainable protein option than land-based meat production.[^1] [Gentry et al.](https://www.nature.com/articles/s41559-017-0257-9) mapped the potential for marine aquaculture globally based on multiple constraints, including ship traffic, dissolved oxygen, bottom depth .[^2]
@@ -42,15 +44,18 @@ To characterize the depth of the ocean I will use the [General Bathymetric Chart
 I will be designating maritime boundaries using Exclusive Economic Zones off of the west coast of US from [Marineregions.org](https://www.marineregions.org/eez.php).
 
 #### *Highlights of Analysis*
-* Investigate Suitable Oyster Areas in West Coast EEZs
-  * Prepare raster data for analysis
-  * Find suitable locations for oyster aquaculture
-  * Calculate area of suitable locations in EEZs
-  * Visualize suitable area in EEZs
-* Make reproducible workflow
-  * Create a function to plot suitable area for any species
+
+-   Investigate Suitable Oyster Areas in West Coast EEZs
+    -   Prepare raster data for analysis
+    -   Find suitable locations for oyster aquaculture
+    -   Calculate area of suitable locations in EEZs
+    -   Visualize suitable area in EEZs
+-   Make reproducible workflow
+    -   Create a function to plot suitable area for any species
 
 ## Analysis
+
+------------------------------------------------------------------------
 
 #### Investigate Suitable Oyster Areas in West Coast EEZs
 
@@ -245,6 +250,7 @@ tm_shape(percent_suitable) +
 ```
 
 #### Making a Reproducible Workflow
+
 ***Creating the Function***
 
 Using the code in the Oyster analysis, I created a function that can be used to create maps of suitable area for any species. After inputting a species name, the EEZ data, sst raster, bathymetry rast, and the temperature and depth conditions for each species, a custom map of area and percent of area per EEZ will be created. Different species and conditions can be found on the [SeaLifeBase](https://www.sealifebase.ca/search.php) website.
