@@ -25,28 +25,21 @@ Marine aquaculture has the potential to play an important role in the global foo
 
 [^2]: Gentry, R. R., Froehlich, H. E., Grimm, D., Kareiva, P., Parke, M., Rust, M., Gaines, S. D., & Halpern, B. S. Mapping the global potential for marine aquaculture. *Nature Ecology & Evolution*, 1, 1317-1324 (2017).
 
-For this assignment, you are tasked with determining which Exclusive Economic Zones (EEZ) on the West Coast of the US are best suited to developing marine aquaculture for several species of oysters.\
-
-Based on previous research, we know that oysters needs the following conditions for optimal growth:\
-
--   sea surface temperature: 11-30°C\
--   depth: 0-70 meters below sea level
-
 #### *Data*
 
 **Sea Surface Temperature**
 
-We will use average annual sea surface temperature (SST) from the years 2008 to 2012 to characterize the average sea surface temperature within the region. The data we are working with was originally generated from [NOAA's 5km Daily Global Satellite Sea Surface Temperature Anomaly v3.1](https://coralreefwatch.noaa.gov/product/5km/index_5km_ssta.php).
+I will use average annual sea surface temperature (SST) from the years 2008 to 2012 to characterize the average sea surface temperature within the region. The data we are working with was originally generated from [NOAA's 5km Daily Global Satellite Sea Surface Temperature Anomaly v3.1](https://coralreefwatch.noaa.gov/product/5km/index_5km_ssta.php).
 
 **Bathymetry**
 
-To characterize the depth of the ocean we will use the [General Bathymetric Chart of the Oceans (GEBCO)](https://www.gebco.net/data_and_products/gridded_bathymetry_data/#area).[^3]
+To characterize the depth of the ocean I will use the [General Bathymetric Chart of the Oceans (GEBCO)](https://www.gebco.net/data_and_products/gridded_bathymetry_data/#area).[^3]
 
 [^3]: GEBCO Compilation Group (2022) GEBCO_2022 Grid (<doi:10.5285/e0f0bb80-ab44-2739-e053-6c86abc0289c>).
 
 **Exclusive Economic Zones**
 
-We will be designating maritime boundaries using Exclusive Economic Zones off of the west coast of US from [Marineregions.org](https://www.marineregions.org/eez.php).
+I will be designating maritime boundaries using Exclusive Economic Zones off of the west coast of US from [Marineregions.org](https://www.marineregions.org/eez.php).
 
 #### *Highlights of Analysis*
 * Investigate Suitable Oyster Areas in West Coast EEZs
@@ -61,11 +54,17 @@ We will be designating maritime boundaries using Exclusive Economic Zones off of
 
 #### Investigate Suitable Oyster Areas in West Coast EEZs
 
+I will determine which Exclusive Economic Zones (EEZ) on the West Coast of the US are best suited to developing marine aquaculture for several species of oysters.\
+Oysters needs the following conditions for optimal growth:\
+
+-   sea surface temperature: 11-30°C\
+-   depth: 0-70 meters below sea level
+
 ***Data Preparation***
 
-The first part of this analysis was to read in the necessary data which included, a shapefile of West Coast EEZs, sea surface temperature (sst) rasters from 2008 to 2012, and a bathymetry raster. Because we are looking for areas with suitable temperature and depth for Oysters, we need to look at sea surface temperature and bathymetry data. The sst rasters from 2008 to 2012 exist as separate rasters, so I combined them into a raster stack. I then visualized the sst and depth rasters by plotting.
+The first part of this analysis was to load in necessary packages and read in the necessary data which included, a shapefile of West Coast EEZs, sea surface temperature (sst) rasters from 2008 to 2012, and a bathymetry raster. Because we are looking for areas with suitable temperature and depth for Oysters, we need to look at sea surface temperature and bathymetry data. The sst rasters from 2008 to 2012 exist as separate rasters, so I combined them into a raster stack. I then visualized the sst and depth rasters by plotting.
 
-```{r include=TRUE, warning=FALSE, messages=FALSE}
+```{r Packages, include=TRUE, warning=FALSE, messages=FALSE}
 # load in packages
 library(tidyverse)
 library(here)
@@ -74,7 +73,9 @@ library(terra)
 library(resample)
 library(tmap)
 library(maptiles)
+```
 
+```{r Data}
 # read in west coast eez data
 west_coast_eez <- st_read(here("data", "wc_regions_clean.shp"))
 
@@ -105,6 +106,7 @@ plot(bathymetry)
 To further prepare the data for analysis, I took the mean of the sst raster to get the mean sea surface temperature from 2008 to 2012 and converted the temperature from Kelvin to Celsius to make it easier to match conditions later. Because we will be using both of these rasters together for analysis, it was important to make sure that the CRS matched for both of the rasters. The CRS did not match, so I projected the sst raster to EPSG:4326 to match the bathymetry raster. Additionally, the rasters have different resolutions, extents, and positions. I cropped the bathymetry raster to match the mean sst raster, so they could have the same extent. I then resampled the bathymetry data to match the same resolution as the sst data using the nearest neighbor approach. To ensure that these methods worked, I stacked the rasters to see that the resolution, extent, and position now matched.
 
 ```{r include=TRUE, warning=FALSE, messages=FALSE}
+### MEAN SST FROM 2008-2012
 # raster of mean SST from 2008-2012
 mean_sst_stack <- app(sst_stack, fun = mean)
 
@@ -112,6 +114,7 @@ mean_sst_stack <- app(sst_stack, fun = mean)
 mean_sst_stack_C <- mean_sst_stack - 273.15
 
 # ----------------------------------------------------------
+### CHANGE CRS TO MATCH
 
 # check that crs is the same
 # it is not the same, bathymetry is epsg:4326
@@ -124,6 +127,7 @@ sst_stack <- project(sst_stack, "EPSG:4326")
 st_crs(bathymetry) == st_crs(sst_stack)
 
 # ----------------------------------------------------------
+### MATCH EXTENT, RESOLUTION, AND POSITION
 
 # crop bathymetry raster to match extent of SST raster
 bathymetry_crop <- crop(x = bathymetry, y = mean_sst_stack_C)
@@ -142,10 +146,10 @@ plot(mean_sst_stack_C)
 
 ***Find Suitable Locations***
 
-Using the sst and depth qualifications for Oysters (found in the background section), I reclassified both the sst and depth rasters to binary values to determine whether certain areas are suitable for growing oysters or not. A value of 1 was assigned to suitable areas, and a value of 0 was assigned to unsuitable areas. I multiplied the rasters to determine which locations satisfied both temperature and depth conditions. Using the raster that contained locations of suitable Oyster areas, I created a mask of suitable areas within EEZs and used it to calculate the suitable area of Oysters. Additionally, I used this area to divide by the total area of each EEZ to calculate the percent of area in each EEZ that is suitable for oysters.
+Using the sst and depth qualifications for Oysters (found in the background section), I reclassified both the sst and depth rasters to binary values to determine whether certain areas are suitable for growing oysters or not. A value of 1 was assigned to suitable areas, and a value of 0 was assigned to unsuitable areas. I multiplied the rasters to determine which locations satisfied both temperature and depth conditions.
 
 ```{r include=TRUE, warning=FALSE, messages=FALSE}
-# reclassify 
+### RECLASSIFY BASED ON CONDITIONS
 # create matrix to classify 11-30 as 1 and everything else as NA
 rcl_sst <- matrix(c(-Inf, 11, NA, 
               11, 30, 1,
@@ -166,7 +170,11 @@ bath_rcl <- classify(resample_bath, rcl = rcl_bath)
 
 # find locations that satisfy both SST and depth conditions by overlaying
 oyster_conditions <- lapp(c(sst_stack_rcl, bath_rcl), "*")
+```
 
+Using the raster that contained locations of suitable Oyster areas, I created a mask of suitable areas within EEZs and used it to calculate the suitable area of Oysters. Additionally, I used this area to divide by the total area of each EEZ to calculate the percent of area in each EEZ that is suitable for oysters.
+
+```{r}
 # create a mask of the oyster conditions that fall in west coast eez
 mask_eez <- mask(oyster_conditions, west_coast_eez)
 plot(mask_eez)
@@ -236,7 +244,7 @@ tm_shape(percent_suitable) +
   tm_title("Percent of area suitable for oysters in EEZ") 
 ```
 
-#### Make Reproducible Workflow
+#### Making a Reproducible Workflow
 ***Creating the Function***
 
 Using the code in the Oyster analysis, I created a function that can be used to create maps of suitable area for any species. After inputting a species name, the EEZ data, sst raster, bathymetry rast, and the temperature and depth conditions for each species, a custom map of area and percent of area per EEZ will be created. Different species and conditions can be found on the [SeaLifeBase](https://www.sealifebase.ca/search.php) website.
