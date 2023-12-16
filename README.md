@@ -17,7 +17,7 @@ This analysis will assist in understanding which West Coast Exclusive Economic Z
 **Exclusive Economic Zones**
 * Designate maritime boundaries using Exclusive Economic Zones off of the west coast of US from [Marineregions.org](https://www.marineregions.org/eez.php).
 
-The data was too large to push to this repository, so download the data [here](https://drive.google.com/file/d/1u-iwnPDbe6ZK7wSFVMI-PpCKaRQ3RVmg/view?usp=sharing) and save it locally. 
+The data was too large to push to this repository, so download the data [here](https://drive.google.com/file/d/1u-iwnPDbe6ZK7wSFVMI-PpCKaRQ3RVmg/view?usp=sharing) and save it locally into a data folder. The data folder is already added to the .gitignore file as 'data/'.
 
 ## Structure 
 The structure of the repo is as follows:
