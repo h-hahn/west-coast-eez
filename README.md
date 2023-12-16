@@ -1,9 +1,9 @@
 # Aquaculture in West Coast Exclusive Economic Zones
-### Overview
+## Overview
 
 This repository contains an analysis to understand the amount of suitable aquaculture area in West Coast Exclusive Economic Zones (EEZ). Using sea surface temperature data, depth data, and EEZ data, I use oyster conditions to find the amount of suitable oyster growing locations in each EEZ. This is then used to create maps demonstrating the total area of suitable locations as well as the percent of area in each EEZ. After establishing this workflow, I used it to create a function in which any species conditions could be inputted, and the appropriate maps would be created.
 
-### About the Data
+## About the Data
 **Sea Surface Temperature**
 
 I will use average annual sea surface temperature (SST) from the years 2008 to 2012 to characterize the average sea surface temperature within the region. The data we are working with was originally generated from [NOAA's 5km Daily Global Satellite Sea Surface Temperature Anomaly v3.1](https://coralreefwatch.noaa.gov/product/5km/index_5km_ssta.php).
@@ -19,7 +19,7 @@ To characterize the depth of the ocean I will use the [General Bathymetric Chart
 I will be designating maritime boundaries using Exclusive Economi
 The data was too large to push to this repository, so download the data [here](https://drive.google.com/file/d/1u-iwnPDbe6ZK7wSFVMI-PpCKaRQ3RVmg/view?usp=sharing) and save it locally. 
 
-### Structure 
+## Structure 
 The structure of the repo is as follows:
 > ```
 > west-coast-eez
