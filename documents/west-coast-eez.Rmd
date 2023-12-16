@@ -27,6 +27,8 @@ Marine aquaculture has the potential to play an important role in the global foo
 
 [^2]: Gentry, R. R., Froehlich, H. E., Grimm, D., Kareiva, P., Parke, M., Rust, M., Gaines, S. D., & Halpern, B. S. Mapping the global potential for marine aquaculture. *Nature Ecology & Evolution*, 1, 1317-1324 (2017).
 
+This analysis will assist in understanding which West Coast Exclusive Economic Zones are suitable for marine aquaculture of different species. I will create a function to use our data to gain a better understanding of what areas in EEZs are suitable for growing different marine species.
+
 #### *Data*
 
 **Sea Surface Temperature**
